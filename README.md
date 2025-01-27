@@ -83,7 +83,7 @@ project-root/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo-link.git
+   git clone https://github.com/rehmankhan786/ecommerce
    ```
 
 2. Navigate to the project directory:
