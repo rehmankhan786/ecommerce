@@ -1,0 +1,61 @@
+::-webkit-scrollbar-track{
+  width: 1px;
+  /* background-color: red; */
+  height: 50px;
+  width: 100px ;
+}
+.active{
+  font: bolder;
+}
+::-webkit-scrollbar{
+  width: 2px;
+  height: 10px;
+background-color: greenyellow;
+
+}
+body{
+  overflow-x: hidden;
+}
+::-webkit-scrollbar-thumb{
+  /* background-color: red; */
+  width: 100px ;
+  height: 40px;
+}
+.sohan-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  background-color: #f0c27b;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.eye {
+  width: 8px;
+  height: 8px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.left-eye {
+  margin-left: 5px;
+}
+
+.right-eye {
+  margin-right: 5px;
+}
+
+.eye.eyes-closed {
+  background-color: #f0c27b;
+}
