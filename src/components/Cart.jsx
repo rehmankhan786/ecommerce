@@ -5,6 +5,17 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import axios from "axios";
 import { backend, myContext } from "..";
 
+// Function to dynamically load Razorpay SDK
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,11 +26,11 @@ const CartPage = () => {
 
   // Helper function to calculate total price
   const calculateTotal = (items) => {
-    const total = items.reduce(
+    const totalAmount = items.reduce(
       (sum, item) => sum + item.productPrice * item.quantity,
       0
     );
-    setTotal(total);
+    setTotal(totalAmount);
   };
 
   // Fetch cart items
@@ -75,7 +86,7 @@ const CartPage = () => {
         { productId: id, quantity: change },
         { withCredentials: true }
       );
-  
+
       if (response.data.success) {
         const updatedItems = cartItems
           .map((item) =>
@@ -84,7 +95,7 @@ const CartPage = () => {
               : item
           )
           .filter((item) => item.quantity > 0); // Remove items with quantity 0
-  
+
         setCartItems(updatedItems);
         setUserData({ ...userData, cart: updatedItems });
         calculateTotal(updatedItems);
@@ -96,7 +107,6 @@ const CartPage = () => {
       setincDecDisabled(false);
     }
   };
-  
 
   // Remove item from cart
   const removeItem = async (id) => {
@@ -116,6 +126,46 @@ const CartPage = () => {
     } catch (error) {
       console.error("Error removing item from cart:", error);
       setError("Failed to remove item. Please try again.");
+    }
+  };
+
+  // Razorpay checkout handler
+  const handleRazorPayScreen = async (amount) => {
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      alert("Failed to load Razorpay SDK. Please check your internet connection.");
+      return;
+    }
+
+    const options = {
+      key: "rzp_test_Z7nT83QSQWigYM", // Replace with your Razorpay test key
+      amount: amount * 100, // Razorpay expects amount in paise
+      currency: "INR",
+      name: "DigiEdgeSol",
+      description: "Testing page for payment of E-commerce website",
+      handler: function (response) {
+        console.log("Payment successful:", response);
+        // Add logic to verify the payment on the backend
+      },
+      prefill: {
+        name: "Atta-ur-Rehman Khan",
+        email: "arkhan434@gmail.com",
+      },
+      theme: {
+        color: "#f4c430",
+      },
+    };
+
+    const paymentObj = new window.Razorpay(options);
+    paymentObj.open();
+  };
+
+  // Checkout function
+  const checkOut = async () => {
+    try {
+      await handleRazorPayScreen(total);
+    } catch (error) {
+      console.error("Error during checkout:", error);
     }
   };
 
@@ -170,7 +220,7 @@ const CartPage = () => {
                   >
                     <Plus />
                   </button>
-                  <button onClick={() => updateQuantity(item.id,-item.quantity)}>
+                  <button onClick={() => removeItem(item.id)}>
                     <Trash2 className="text-red-500" />
                   </button>
                 </div>
@@ -182,11 +232,11 @@ const CartPage = () => {
 
       <div className="p-6 border-t flex justify-between items-center">
         <div className="text-xl font-semibold">
-          Total: ${total.toLocaleString()}
+          Total: ₹{total.toLocaleString()}
         </div>
         {total > 0 && (
           <button
-            onClick={() => alert("Proceed to checkout")}
+            onClick={checkOut}
             className="bg-blue-600 text-white text-lg w-[15vw] h-[50px] rounded transition-all hover:bg-blue-700 hover:text-xl"
           >
             Checkout
