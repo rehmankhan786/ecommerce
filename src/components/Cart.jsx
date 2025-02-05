@@ -154,6 +154,8 @@ const CartPage = () => {
       theme: {
         color: "#f4c430",
       },
+      notify:true,
+      
     };
 
     const paymentObj = new window.Razorpay(options);
