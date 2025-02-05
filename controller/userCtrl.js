@@ -15,7 +15,7 @@ const userCtrl = {
     // console.log(email);
     const isUserExists = await USER.findOne({ email });
     if (isUserExists) {
-      console.log(isUserExists);
+      // console.log(isUserExists);
       return res
         .status(401)
         .json({ msg: "User Already Exists", success: false });
@@ -61,7 +61,7 @@ const userCtrl = {
             if (findRes === null) {
               wish.splice(idx, 1);
               user.wishlist = wish;
-              console.log(wish)
+              // console.log(wish)
             }
           });
           setTimeout(async () => {
@@ -83,7 +83,7 @@ const userCtrl = {
         } else {
           return res.status(401).json({
             success: false,
-            message: "You have been blocked by admin ,please Contact Admin",
+            msg: "You have been blocked by admin ,please Contact Admin",
           });
         }
       } else {
@@ -346,12 +346,12 @@ const userCtrl = {
 
       // Find the user by their email
       const user = await userModel.findOne({ email: decodedToken });
-      
+
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      console.log(user)
-      let wishlist = user.wishlist
+      // console.log(user);
+      let wishlist = user.wishlist;
       // Find the index of the product to remove
       const itemIndex = wishlist.findIndex((item, idx) => {
         // item._id == productId;
@@ -363,20 +363,20 @@ const userCtrl = {
         }
       });
       // console.log(itemIndex)
-      console.log(itemIndex);
+      // console.log(itemIndex);
       if (itemIndex === -1) {
         return res.status(404).json({ message: "Item not found in wishlist" });
       }
 
       // Remove the item from the wishlist
-      user.wishlist.splice(itemIndex, 1)
-       
-      console.log(wishlist)
+      user.wishlist.splice(itemIndex, 1);
+
+      // console.log(wishlist);
       // user.wishlist = wishlist;
 
       // Save the updated user document
       // console.log(splishedList)
-      console.log(user.wishlist)
+      // console.log(user.wishlist);
       await user.save();
 
       return res.status(200).json({
@@ -387,6 +387,29 @@ const userCtrl = {
       console.log("Error removing item from wishlist:", error);
       res.status(500).json({ message: "Internal server error", error });
     }
+  },
+  updateCart: async (req, res) => {
+    // console.log(req.body)
+    // console.log("Started-------------------");
+    let { productId, quantity } = req.body;
+    let { email } = req.user;
+    // console.log(req.user)
+    const userData = await userModel.findOne({ email });
+
+    // console.log(req.userData.cart)
+    // console.log("hello")
+    let userCart = req.user.cart;
+    userCart.forEach((item,idx) => {
+      item.productQuantity += quantity;
+      if(item.productQuantity==0){
+        userCart.splice(idx,1)
+      }
+    });
+    userData.cart = userCart;
+    await userData.save();
+    // console.log(userCart);
+
+    return res.status(200).json({success:true, msg: "cart updated" });
   },
 };
 

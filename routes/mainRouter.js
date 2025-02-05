@@ -9,7 +9,7 @@ Router.use("/user", userRouter);
 Router.use('/product',productRouter)
 Router.use('/category',categoryRouter)
 Router.use('/admin',adminRouter)
-Router.use("/api/cart", cartRoutes);
+Router.use("/cart", cartRoutes);
 
 
 module.exports = Router;

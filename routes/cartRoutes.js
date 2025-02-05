@@ -15,5 +15,6 @@ router.post("/update", authenticateToken, cartController.updateCart);
 
 // Remove from cart
 router.post("/remove", authenticateToken, cartController.removeFromCart);
+router.post("/order",  cartController.createOrder);
 
 module.exports = router;

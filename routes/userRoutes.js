@@ -3,7 +3,7 @@ const Router = require("express").Router();
 const USER = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const userCtrl = require("../controller/userCtrl");
-const { auth } = require("../middlewares/auth");
+const { auth, getUser, getUserData } = require("../middlewares/auth");
 
 Router.post("/register", userCtrl.register);
 Router.post("/login", userCtrl.login);
@@ -17,5 +17,6 @@ Router.get("/logout", userCtrl.logout);
 Router.put("/updateprofile", userCtrl.updateProfile);
 Router.delete("/deletemyaccount", auth,userCtrl.deleteAccount);
 Router.get("/profile", userCtrl.getProfile);
+Router.post("/updateCart",getUserData, userCtrl.updateCart);
 
 module.exports = Router;

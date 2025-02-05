@@ -76,7 +76,7 @@ const productCtrl = {
   },
   getSingleProduct: async (req, res) => {
     const productId = req.params.productId;
-    console.log(req.params);
+    // console.log(req.params);
     const product = await productModel.findOne({ _id: productId });
     if (product) {
       return res.status(200).json(product);
@@ -87,7 +87,7 @@ const productCtrl = {
   addProduct: async (req, res) => {
     try{
       const productPhoto = req.file;
-      console.log(req.body)
+      // console.log(req.body)
       const uploadedPhoto = await uploadProductPhoto(productPhoto.filename);
       const {
         productName,
@@ -106,7 +106,7 @@ const productCtrl = {
       if (userjwt) {
         const user = await getUser(userjwt);
         const { email } = user;
-        console.log(user);
+        // console.log(user);
         const productsAddedByUser = await Product.findOne({
           productAddedBy: email,
           productCode,
@@ -229,10 +229,10 @@ const productCtrl = {
     try {
       const productIds = req.user.cart.map((item) => item._id); // Get cart items from user object
 
-      console.log("productIDs  ", productIds);
+      // console.log("productIDs  ", productIds);
 
       const products = await Product.find({ _id: { $in: productIds } }); // Fetch product details
-      console.log("products", products);
+      // console.log("products", products);
       return res.status(200).json(products);
     } catch (error) {
       return res
@@ -245,14 +245,14 @@ const productCtrl = {
   getProductsByIds: async (req, res) => {
     try {
       const { productIds } = req.body; // Expect an array of product IDs in the request body
-      console.log(productIds);
-      console.log("productIds");
+      // console.log(productIds);
+      // console.log("productIds");
       if (!Array.isArray(productIds) || productIds.length === 0) {
         return res.status(400).json({ message: "Invalid product IDs" });
       }
 
       const products = await Product.find({ _id: { $in: productIds } });
-      console.log(products);
+      // console.log(products);
       // Convert products array into an object with productId as keys for easy mapping
       const productsById = products.reduce((acc, product) => {
         acc[product._id] = product;

@@ -15,7 +15,7 @@ const categoryCtrl = {
   },
   add: async (req, res) => {
     var { categoryName } = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     categoryName = categoryName.toLowerCase();
     const isCategoryExists = await category.findOne({ name: categoryName });
     if (isCategoryExists) {

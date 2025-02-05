@@ -15,6 +15,6 @@ Router.post('/update:pCode',auth,productCtrl.updateProduct)
 Router.delete('/delete:pCode',auth,productCtrl.deleteProduct)
 Router.get('/cart', authenticateToken,productCtrl.getCartProducts)
 Router.get('/:productId',productCtrl.getSingleProduct)
-
+ 
 
 module.exports = Router;

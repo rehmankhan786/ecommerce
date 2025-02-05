@@ -117,7 +117,7 @@ const adminCtrl = {
           html: `<a>${frontEnd}/forgotpassword/${encryptEmail}</a>`, // html body
         });
 
-        console.log("Message sent: ", info.messageId);
+        // console.log("Message sent: ", info.messageId);
         // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
       }
       main().catch(console.error);
@@ -151,7 +151,7 @@ const adminCtrl = {
   },
   deleteProduct: async (req, res) => {
     const productId = req.params.productId;
-    console.log(`product id:- ${productId} has been deleted`)
+    // console.log(`product id:- ${productId} has been deleted`)
     const product = await productModel.findOneAndDelete({ _id: productId });
     return res
       .status(200)
@@ -174,10 +174,10 @@ const adminCtrl = {
   },
   blockUser: async (req, res) => {
     const userId = req.params.userId;
-    console.log(userId)
+    // console.log(userId)
     const user = await userModel.findOne({ _id: userId });
     user.blockStatus = !user.blockStatus;
-    console.log(user.blockStatus)
+    // console.log(user.blockStatus)
     await user.save();
     return res.status(200).json({success:true,message:user.blockStatus,user})
   },

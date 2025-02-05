@@ -6,7 +6,41 @@ const getUser = async (email) => {
   const user = await userModel.findOne({ email });
   try {
     if (user) {
+      // req.userData = user
       return user;
+    }
+  } catch (error) {
+    console.log("ERROR:----", error);
+  }
+};
+const getUserData = async (req,res,next) => {
+
+const token = req.cookies.ecom_cookies;
+const email = jwt.verify(token, secretKey)
+
+
+  const user = await userModel.findOne({ email });
+  try {
+    if (user) {
+      req.user = user
+      // return user;
+      next()
+    }
+  } catch (error) {
+    console.log("ERROR:----", error);
+  }
+};
+const isAdmin = async (req,res,next) => {
+  const token = req.cookies.ecom_cookies;
+  console.log(token)
+  const email = await jwt.verify(token,secretKey);
+  console.log(email)
+
+  const user = await userModel.findOne({ email });
+  try {
+    if (user) {
+      // req.user = user
+      next()
     }
   } catch (error) {
     console.log("ERROR:----", error);
@@ -57,4 +91,4 @@ const authenticateToken = async (req, res, next) => {
 };
 
 // module.exports = authenticateToken;
-module.exports = { auth, getUser,authenticateToken };
+module.exports = { auth, getUser,getUserData,authenticateToken,isAdmin };

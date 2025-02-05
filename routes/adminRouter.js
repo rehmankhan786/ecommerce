@@ -4,16 +4,17 @@ const USER = require("../models/userModel");
 const bcrypt = require("bcrypt");
 // const userCtrl = require("../controller/userCtrl");
 const  adminCtrl  = require("../controller/adminController");
+const { isAdmin } = require("../middlewares/auth");
 
-Router.get("/users", adminCtrl.getAllUsers);
+Router.get("/users", isAdmin,adminCtrl.getAllUsers);
 Router.post("/login", adminCtrl.login);
-Router.post("/changepassword", adminCtrl.changePassword);
+Router.post("/changepassword", isAdmin, adminCtrl.changePassword);
 Router.post("/forgotpassword/:forgotToken", adminCtrl.changePassword);
 Router.post("/forgotpassword", adminCtrl.forgotPassword);
-Router.post("/updateprofile", adminCtrl.updateProfile);
-Router.delete("/product/:productId", adminCtrl.deleteProduct);
-Router.get("/products", adminCtrl.getProducts);
-Router.delete("/user/:userId", adminCtrl.deleteUser);
-Router.put("/user/:userId", adminCtrl.blockUser);
+Router.post("/updateprofile", isAdmin, adminCtrl.updateProfile);
+Router.delete("/product/:productId", isAdmin, adminCtrl.deleteProduct);
+Router.get("/products", isAdmin, adminCtrl.getProducts);
+Router.delete("/user/:userId", isAdmin, adminCtrl.deleteUser);
+Router.put("/user/:userId", isAdmin, adminCtrl.blockUser);
 
 module.exports = Router;
