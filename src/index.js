@@ -5,7 +5,7 @@ import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-export const backend = 'http://localhost:4000'
+export const backend = process.env.BACKDEND
 export const myContext = createContext({ authorization: false });
 const AppWrapper = () => {
   const guest={username:"Guest",cartlength:0}
