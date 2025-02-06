@@ -7,7 +7,7 @@ var ghpages = require('gh-pages');
 
 // ghpages.publish('dist', function(err) {});
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT
 const origin1 = process.env.FRONTEND || process.env.FRONTEND_LOCAL
 app.use(cors({
   origin: origin1,
