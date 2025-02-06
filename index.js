@@ -8,9 +8,7 @@ var ghpages = require('gh-pages');
 // ghpages.publish('dist', function(err) {});
 const app = express();
 const port = process.env.PORT || 4000;
-const origin1 = process.env.FRONTEND
-// const origin2 = "https://vh0820sq-4000.inc1.devtunnels.ms/"
-// console.log(origin)
+const origin1 = process.env.FRONTEND || process.env.FRONTEND_LOCAL
 app.use(cors({
   origin: origin1,
   credentials: true
