@@ -9,10 +9,7 @@ var ghpages = require('gh-pages');
 const app = express();
 const port = process.env.PORT
 const origin1 = process.env.FRONTEND || process.env.FRONTEND_LOCAL
-app.use(cors({
-  origin: origin1,
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
